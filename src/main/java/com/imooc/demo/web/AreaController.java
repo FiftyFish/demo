@@ -7,11 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -45,7 +42,7 @@ public class AreaController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/getareabyid", method = RequestMethod.POST)
+	@RequestMapping(value = "/getareabyid", method = RequestMethod.GET)
 	private Map<String, Object> getAreaById(Integer areaId) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		// 获取区域信息
@@ -65,7 +62,7 @@ public class AreaController {
 	 * @throws JsonParseException
 	 */
 	@RequestMapping(value = "/addarea", method = RequestMethod.POST)
-	private Map<String, Object> addArea(@RequestBody Area area)
+	private Map<String, Object> addArea(Area area)
 			throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		// 添加区域信息
@@ -84,7 +81,7 @@ public class AreaController {
 	 * @throws JsonParseException
 	 */
 	@RequestMapping(value = "/modifyarea", method = RequestMethod.POST)
-	private Map<String, Object> modifyArea(@RequestBody Area area)
+	private Map<String, Object> modifyArea(Area area)
 			throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		// 修改区域信息
