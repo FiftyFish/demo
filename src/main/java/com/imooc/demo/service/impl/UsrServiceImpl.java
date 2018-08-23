@@ -1,6 +1,5 @@
 package com.imooc.demo.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.imooc.demo.dao.UsrDao;
 import com.imooc.demo.entity.Usr;
 import com.imooc.demo.service.UsrService;
+import com.imooc.demo.util.EncryptUtil;
 
 @Service
 public class UsrServiceImpl implements UsrService{
 	@Autowired
 	private UsrDao usrDao;
+	
 	@Override
 	public List<Usr> getUsrList() {
 		// 列出所有的用户
@@ -32,8 +33,14 @@ public class UsrServiceImpl implements UsrService{
 		//注册用户
 		// 空值判断，主要是判断areaName不为空
 				if (usr.getUsrName() != null && !"".equals(usr.getUsrName())) {
-					// 设置默认值
-					
+					//密码加密操作
+					try {
+						String pwd;
+						pwd = EncryptUtil.aesDecrypt(usr.getUsrPassword(), EncryptUtil.KEY);
+						usr.setUsrPassword(pwd);
+					} catch (Exception e1) {
+						throw new RuntimeException("密码加密失败:" + e1.toString());
+					} 
 					try {
 						int effectedNum = usrDao.insertUsr(usr);
 						if (effectedNum > 0) {
@@ -51,10 +58,10 @@ public class UsrServiceImpl implements UsrService{
 	}
 	@Transactional
 	@Override
-	public boolean modifyUsr(Usr usr) {
+	public boolean updateUsr(Usr usr) {
 
 		// 空值判断，主要是areaId不为空
-		if (usr.getId() != null && usr.getId() > 0) {
+		if (usr.getId() != null && usr.getUserId() > 0) {
 			// 设置默认值
 			
 			try {
@@ -96,11 +103,19 @@ public class UsrServiceImpl implements UsrService{
 	public boolean verifyUser(Usr usr) {
 		String usrName =usr.getUsrName();
 		String password =usr.getUsrPassword();
-		if (usrName.equals("fanjia")&&password.equals("123456")) {
-			return true;
-		} else {
-			return false;
-		}
+		String pwd = null;
+		try {
+			pwd = EncryptUtil.aesDecrypt(password, EncryptUtil.KEY);
+			usrDao.queryUsrByName(usrName);
+			if (pwd.equals(usrDao.queryUsrByName(usrName).getUsrPassword())) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("密码解密失败:" + e.toString());
+		}	
+		
 		
 	}
 

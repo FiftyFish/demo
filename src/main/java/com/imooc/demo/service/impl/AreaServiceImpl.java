@@ -10,9 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.imooc.demo.dao.AreaDao;
 import com.imooc.demo.entity.Area;
 import com.imooc.demo.service.AreaService;
-
+//使用@Servce注解声明当前AreaService类是Spring管理的一个Bean，其中使用@Component、@Service、@Repository和@Controller是等效的，可根据需要选用。
 @Service
 public class AreaServiceImpl implements AreaService {
+	//使用@Autowired将AreaDao的实体Bean注入到AreaService中，，让AreaService具备AreaDao的功能，
+	//此处使用JSR-330的@Inject注解或者JSR-250的@Resource注解是等效的。
 	@Autowired
 	private AreaDao areaDao;
 

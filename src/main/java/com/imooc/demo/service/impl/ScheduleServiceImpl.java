@@ -17,11 +17,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public List<Schedule> getScheduleList() {
 		
-		return scheduleDao.queryList();
+		return scheduleDao.queryscheduleList();
 	}
 
 	@Override
-	public Schedule getScheduleById(String scheduleId) {
+	public List<Schedule> getScheduleById(String scheduleId) {
 		// TODO Auto-generated method stub
 		return scheduleDao.queryScheduleById(scheduleId);
 	}
@@ -69,11 +69,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 	@Transactional
 	@Override
-	public boolean deleteSchedule(String scheduleId) {
-		if (!scheduleId.isEmpty()) {
+	public boolean removeSchedule(Integer id) {
+		if (id != 0) {
 			try {
 				// 删除排期信息
-				int effectedNum = scheduleDao.delete(scheduleId);
+				int effectedNum = scheduleDao.deleteSchedule(id);
 				if (effectedNum > 0) {
 					return true;
 				} else {
