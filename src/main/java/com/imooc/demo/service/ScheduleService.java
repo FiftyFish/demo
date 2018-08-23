@@ -18,7 +18,7 @@ public interface ScheduleService {
 	 * @param scheduleId
 	 * @return
 	 */
-	Schedule getScheduleById(String scheduleId);
+	List<Schedule> getScheduleById(String scheduleId);
 
 	/**
 	 * 增加排期信息
@@ -42,5 +42,5 @@ public interface ScheduleService {
 	 * @param schedule
 	 * @return
 	 */
-	boolean deleteSchedule(String  scheduleId);
+	boolean removeSchedule(Integer  id);
 }

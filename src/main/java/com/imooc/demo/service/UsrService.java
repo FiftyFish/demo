@@ -36,7 +36,7 @@ public interface UsrService {
 	 * @param usr
 	 * @return
 	 */
-	boolean modifyUsr(Usr usr);
+	boolean updateUsr(Usr usr);
 
 	/**
 	 * 删除用户信息
