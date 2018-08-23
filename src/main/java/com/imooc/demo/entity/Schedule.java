@@ -3,9 +3,22 @@ package com.imooc.demo.entity;
 import java.util.Date;
 
 public class Schedule {
+	
+	
+	private Integer id;
+
 	private String scheduleId;
+
 	private Date uploadDate;
+
 	private Integer isUpload;
+
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	
 	public String getScheduleId() {
 		return scheduleId;
