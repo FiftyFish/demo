@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imooc.demo.dao.UploadRcrdDao">
+	<select id="queryUploadRcrd" resultType="com.imooc.demo.entity.UploadRcrd">
+		SELECT 
+			rcrd_id, inpt_opr, inpt_date, belong_sys, belong_envir, change_content, change_type,
+			bank_leader, is_local_test, test_case, is_test, is_send_leader, 
+			is_accept, tester_name, edit_date, schedule_id 
+		FROM upload_rcrd_info
+		ORDER BY schedule_id
+		DESC
+	</select>
+	<select id="queryUploadRcrdByScheduleId" resultType="com.imooc.demo.entity.UploadRcrd">
+		SELECT 
+			rcrd_id, inpt_opr, inpt_date, belong_sys, belong_envir, change_content, change_type,
+			bank_leader, is_local_test, test_case, is_test, is_send_leader, 
+			is_accept, tester_name, edit_date, schedule_id 
+		FROM upload_rcrd_info
+		WHERE schedule_id=#{scheduleId}
+		ORDER BY schedule_id
+		DESC
+	</select>
+	<insert id="insertUploadRcrd" parameterType="com.imooc.demo.entity.UploadRcrd">
+		INSERT INTO upload_rcrd_info 
+				(rcrd_id, inpt_opr, inpt_date, belong_sys, belong_envir, change_content, 
+				change_type, bank_leader, is_local_test, test_case, is_test, 
+				is_send_leader, is_accept, tester_name, edit_date, schedule_id) 
+		VALUES (#{rcrdId},#{inptOpr},#{inptDate},#{belongSys},#{belongEnvir},#{changeContent},
+				#{changeType},#{bankLeader},#{isLocalTest},#{testCase},#{isTest},
+				#{isSendLeader},#{isAccept},#{testerName},#{editDate},#{scheduleId});	
+	</insert>
+	<update id="updateUploadRcrd" parameterType="com.imooc.demo.entity.UploadRcrd">
+		UPDATE upload_rcrd_info
+		<set>
+			<if test="inptDate != null">inpt_date=#{inptDate},</if>
+			<if test="belongSys != null">belong_sys=#{belongSys},</if>
+			<if test="belongEnvir != null">belong_envir=#{belongEnvir},</if>
+			<if test="changeContent != null">change_content=#{changeContent},</if>
+			<if test="changeType != null">change_type=#{changeType},</if>
+			<if test="bankLeader != null">bank_leader=#{bankLeader},</if>
+			<if test="isLocalTest != null">is_local_test=#{isLocalTest},</if>
+			<if test="testCase != null">test_case=#{testCase},</if>
+			<if test="isTest != null">is_test=#{isTest},</if>
+			<if test="isSendLeader != null">is_send_leader=#{isSendLeader},</if>
+			<if test="isAccept != null">is_accept=#{isAccept},</if>
+			<if test="testerName != null">tester_name=#{testerName},</if>
+			<if test="editDate != null">edit_date=#{editDate},</if>
+			<if test="scheduleId != null">schedule_id=#{scheduleId}</if>
+		</set>
+		WHERE rcrd_id=#{rcrdId}
+		AND inpt_opr=#{inptOpr}
+	</update>
+	<delete id="deleteUploadRcrdByScheduleId">
+		DELETE FROM	upload_rcrd_info
+		WHERE schedule_id=#{scheduleId}
+	</delete>
+	<delete id="deleteUploadRcrdByRcrdId">
+		DELETE FROM	upload_rcrd_info
+		WHERE rcrd_id=#{rcrdId}
+	</delete>
+</mapper>
+    

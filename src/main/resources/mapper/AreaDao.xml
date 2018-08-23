@@ -4,43 +4,42 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.imooc.demo.dao.AreaDao">
 	<select id="queryArea" resultType="com.imooc.demo.entity.Area">
-		SELECT area_id, area_name,
-		priority, creat_time, last_edit_time
-		FROM tb_area
+		SELECT 
+			area_id, area_name,
+			priority, creat_time, last_edit_time
+		FROM area_info
 		ORDER BY priority
 		DESC
 	</select>
 	<select id="queryAreaById" resultType="com.imooc.demo.entity.Area">
-		SELECT area_id, area_name,
-		priority, creat_time, last_edit_time
-		FROM tb_area
+		SELECT 
+			area_id, area_name,
+			priority, creat_time, last_edit_time
+		FROM area_info
 		WHERE
-		area_id=#{areaId}
+			area_id=#{areaId}
 	</select>
 	<insert id="insertArea" useGeneratedKeys="true" keyProperty="areaId"
 		keyColumn="area_id" parameterType="com.imooc.demo.entity.Area">
-		INSERT INTO
-		tb_area(area_name,priority,
-		creat_time,last_edit_time)
+		INSERT INTO	area_info
+			(area_name,priority,
+			creat_time,last_edit_time)
 		VALUES
-		(#{areaName},#{priority},
-		#{createTime},#{lastEditTime})
+			(#{areaName},#{priority},
+			#{creatTime},#{lastEditTime})
 	</insert>
 	<update id="updateArea" parameterType="com.imooc.demo.entity.Area">
-		update tb_area
+		UPDATE area_info
 		<set>
 			<if test="areaName != null">area_name=#{areaName},</if>
 			<if test="priority != null">priority=#{priority},</if>
 			<if test="lastEditTime != null">last_edit_time=#{lastEditTime}</if>
 		</set>
-		where area_id=#{areaId}
+		WHERE area_id=#{areaId}
 	</update>
 	<delete id="deleteArea">
-		DELETE FROM
-		tb_area
-		WHERE
-		area_id =
-		#{areaId}
+		DELETE FROM	area_info
+		WHERE area_id =#{areaId}
 	</delete>
 </mapper>
     

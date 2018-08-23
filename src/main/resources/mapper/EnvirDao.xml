@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imooc.demo.dao.EnvirDao">
+	<select id="queryEnvirList" resultType="com.imooc.demo.entity.Envir">
+		SELECT 
+			id, ip, login_name, login_password, envir_name, system_name, is_admin
+		FROM envir_info
+		WHERE is_admin=#{isAdmin}
+	</select>
+	<select id="queryEnvirByIP" resultType="com.imooc.demo.entity.Envir">
+		SELECT 
+			id, ip, login_name, login_password, envir_name, system_name, is_admin
+		FROM envir_info
+		WHERE is_admin=#{isAdmin}
+		AND	ip=#{ip}
+	</select>
+	<insert id="insertEnvir" useGeneratedKeys="true" keyProperty="id"
+		keyColumn="id" parameterType="com.imooc.demo.entity.Envir">
+		INSERT INTO envir_info 
+				(ip, login_name, login_password, envir_name, system_name, is_admin) 
+		VALUES (#{ip}, #{loginName}, #{loginPassword}, #{envirName}, #{systemName}, #{isAdmin})
+	</insert>
+	<update id="updateEnvir" parameterType="com.imooc.demo.entity.Envir">
+		UPDATE envir_info
+		<set>
+			<if test="ip != null">ip=#{ip},</if>
+			<if test="loginName != null">login_name=#{loginName},</if>
+			<if test="loginPassword != null">login_password=#{loginPassword},</if>
+			<if test="envirName != null">envir_name=#{envirName},</if>
+			<if test="systemName != null">system_name=#{systemName},</if>
+			<if test="isAdmin != null">is_admin=#{isAdmin}</if>
+		</set>
+		WHERE id=#{id}
+	</update>
+	<delete id="deleteEnvir">
+		DELETE FROM	envir_info
+		WHERE id=#{id}
+	</delete>
+</mapper>
+    

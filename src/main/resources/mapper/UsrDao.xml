@@ -1,50 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.imooc.demo.dao.UsrDao">
 	<select id="queryUsr" resultType="com.imooc.demo.entity.Usr">
-		SELECT Id,
-	    user_id,
-	    usr_name,
-	    Usr_password
+		SELECT 
+			Id,
+		    user_id,
+		    usr_name,
+		    usr_password,
+		    affiliated_company,
+			attribute,
+			bank_leader,
+			is_admin,
+			input_date,
+			edit_date
 		FROM user_info
 	</select>
 	<select id="queryUsrByName" resultType="com.imooc.demo.entity.Usr">
-		SELECT Id,
-	    user_id,
-	    usr_name,
-	    Usr_password
+		SELECT 
+			Id,
+		    user_id,
+		    usr_name,
+		    usr_password,
+		    affiliated_company,
+			attribute,
+			bank_leader,
+			is_admin,
+			input_date,
+			edit_date		
 		FROM user_info
-		WHERE
-		usr_name=#{usrName}
+		WHERE 
+			usr_name=#{usrName}
 	</select>
 	<insert id="insertUsr" useGeneratedKeys="true" keyProperty="Id"
 		keyColumn="Id" parameterType="com.imooc.demo.entity.Usr">
-		INSERT INTO
-		tb_area(area_name,priority,
-		creat_time,last_edit_time)
-		VALUES
-		(#{areaName},#{priority},
-		#{createTime},#{lastEditTime})
+		INSERT INTO user_info 
+				(user_id, usr_name, attribute, input_date, usr_password, 
+				edit_date, affiliated_company, is_admin, bank_leader) 
+		VALUES (#{userId},#{usrName},#{attribute},#{inputDate},#{usrPassword},
+				#{editDate},#{affiliatedCompany},#{isAdmin},#{bankLeader})
 	</insert>
-	<update id="updateArea" parameterType="com.imooc.demo.entity.Area">
-		update tb_area
+	<update id="updateUsr" parameterType="com.imooc.demo.entity.Usr">
+		UPDATE user_info
 		<set>
-			<if test="areaName != null">area_name=#{areaName},</if>
-			<if test="priority != null">priority=#{priority},</if>
-			<if test="lastEditTime != null">last_edit_time=#{lastEditTime}</if>
+			<if test="userId != null">user_id=#{userId},</if>
+			<if test="usrName != null">usr_name=#{usrName},</if>
+			<if test="attribute != null">attribute=#{attribute},</if>
+			<if test="inputDate != null">input_date=#{inputDate},</if>
+			<if test="usrPassword != null">usr_password=#{usrPassword},</if>
+			<if test="editDate != null">edit_date=#{editDate},</if>
+			<if test="affiliatedCompany != null">affiliated_company=#{affiliatedCompany},</if>
+			<if test="isAdmin != null">is_admin=#{isAdmin},</if>
+			<if test="bankLeader != null">bank_leader=#{bankLeader}</if>
 		</set>
-		where area_id=#{areaId}
+		WHERE Id=#{Id}
 	</update>
-	<delete id="deleteArea">
-		DELETE FROM
-		tb_area
-		WHERE
-		area_id =
-		#{areaId}
+	<delete id="deleteUsr">
+		DELETE FROM user_info
+		WHERE usr_name=#{usrName}
 	</delete>
 </mapper>
     
