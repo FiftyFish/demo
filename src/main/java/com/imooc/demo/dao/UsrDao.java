@@ -43,7 +43,4 @@ public interface UsrDao {
 	 * @return
 	 */
 	int deleteUsr(String usrName);
-
-	
-	
 }

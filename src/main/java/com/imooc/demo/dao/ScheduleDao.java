@@ -11,14 +11,14 @@ public interface ScheduleDao {
 	 * 
 	 * @return scheduleList
 	 */
-	List<Schedule> queryList();
+	List<Schedule> queryscheduleList();
 
 	/**
 	 * 根据用排期号查询排期信息
 	 * 
 	 * @return schedule
 	 */
-	Schedule queryScheduleById(String scheduleId);
+	List<Schedule> queryScheduleById(String scheduleId);
 
 	/**
 	 * 插入排期
@@ -42,5 +42,6 @@ public interface ScheduleDao {
 	 * @param scheduleId
 	 * @return
 	 */
-	int delete(String scheduleId);
+	int deleteSchedule(Integer id);
+
 }
