@@ -17,6 +17,22 @@
 			edit_date
 		FROM user_info
 	</select>
+	<select id="queryUsrs" resultType="com.imooc.demo.entity.Usr">
+		SELECT 
+			Id,
+		    user_id,
+		    usr_name,
+		    usr_password,
+		    affiliated_company,
+			attribute,
+			bank_leader,
+			is_admin,
+			input_date,
+			edit_date		
+		FROM user_info
+		WHERE 
+			usr_name like CONCAT('%',#{usrName},'%')
+	</select>
 	<select id="queryUsrByName" resultType="com.imooc.demo.entity.Usr">
 		SELECT 
 			Id,

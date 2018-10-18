@@ -5,7 +5,7 @@
 <mapper namespace="com.imooc.demo.dao.EnvirDao">
 	<select id="queryAdminEnvirList" resultType="com.imooc.demo.entity.Envir">
 		SELECT 
-			id, ip, login_name, login_password, envir_name, system_name, is_admin = (case is_admin when 1 then "是" when 0 then "否" else "" end)
+			id, ip, login_name, login_password, envir_name, system_name, is_admin
 		FROM envir_info
 	</select>
 

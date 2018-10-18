@@ -9,6 +9,16 @@
 			bank_leader, is_local_test, test_case, is_test, is_send_leader, 
 			is_accept, tester_name, edit_date, schedule_id 
 		FROM upload_rcrd_info
+		where inpt_opr=#{usrName}
+		ORDER BY schedule_id
+		DESC
+	</select>
+	<select id="queryUploadRcrdAll" resultType="com.imooc.demo.entity.UploadRcrd">
+		SELECT 
+			rcrd_id, inpt_opr, inpt_date, belong_sys, belong_envir, change_content, change_type,
+			bank_leader, is_local_test, test_case, is_test, is_send_leader, 
+			is_accept, tester_name, edit_date, schedule_id 
+		FROM upload_rcrd_info
 		ORDER BY schedule_id
 		DESC
 	</select>
@@ -19,6 +29,16 @@
 			is_accept, tester_name, edit_date, schedule_id 
 		FROM upload_rcrd_info
 		WHERE schedule_id=#{scheduleId}
+		ORDER BY schedule_id
+		DESC
+	</select>
+	<select id="queryUploadRcrdByScheduleIdName" parameterType="String"  resultType="com.imooc.demo.entity.UploadRcrd">
+		SELECT 
+			rcrd_id, inpt_opr, inpt_date, belong_sys, belong_envir, change_content, change_type,
+			bank_leader, is_local_test, test_case, is_test, is_send_leader, 
+			is_accept, tester_name, edit_date, schedule_id 
+		FROM upload_rcrd_info
+		WHERE schedule_id=#{arg0} and inpt_opr=#{arg1}
 		ORDER BY schedule_id
 		DESC
 	</select>

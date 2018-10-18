@@ -16,6 +16,12 @@
 		FROM schedule_info
 		WHERE schedule_id=#{scheduleId}
 	</select>
+	<select id="querySchedule" resultType="com.imooc.demo.entity.Schedule">
+		SELECT 
+			id, schedule_id, upload_date, is_upload
+		FROM schedule_info
+		WHERE  is_upload='1'
+	</select>
 	<insert id="insertScheule" useGeneratedKeys="true" keyProperty="Id"
 		keyColumn="Id" parameterType="com.imooc.demo.entity.Schedule">
 		INSERT INTO schedule_info 
