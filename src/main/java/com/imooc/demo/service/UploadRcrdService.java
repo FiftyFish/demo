@@ -11,21 +11,22 @@ public interface UploadRcrdService {
 	 * 
 	 * @return UploadRcrdList
 	 */
-	List<UploadRcrd> getUploadRcrdList();
+	List<UploadRcrd> getUploadRcrdList(String usrName);
 
 	/**
 	 * 根据排期编号列出发版申请
 	 * 
 	 * @return UploadRcrdList
 	 */
-	List<UploadRcrd> getUploadRcrdListByScheduleId(String scheduleId);
+	List<UploadRcrd> getUploadRcrdListByScheduleId(String inptOpr,String scheduleId);
 
+	List<UploadRcrd> getUploadRcrdListByScheduleIdAdmin(String scheduleId);
 	/**
 	 * 插入发版申请
 	 * 
 	 * @return UploadRcrdList
 	 */
-	boolean addUploadRcrd(UploadRcrd uploadRcrd, String usrName);
+	boolean addUploadRcrd(UploadRcrd uploadRcrd);
 
 	/**
 	 * 更新发版申请

@@ -60,4 +60,6 @@ public interface ScheduleService {
 	 */
 	boolean uploadList(String scheduleId);
 
+	List<Schedule> getSchedule();
+
 }

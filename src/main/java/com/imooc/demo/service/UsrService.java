@@ -12,6 +12,14 @@ public interface UsrService {
 	 * @return
 	 */
 	List<Usr> getUsrList();
+	
+	
+	/**
+	 * 获取用户列表使用模糊查询的方式
+	 * 
+	 * @return
+	 */
+	List<Usr> getUsrsList(String usrName);
 
 	/**
 	 * 通过用户名获取用户信息
