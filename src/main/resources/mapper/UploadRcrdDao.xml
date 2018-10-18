@@ -40,17 +40,16 @@
 			<if test="changeContent != null">change_content=#{changeContent},</if>
 			<if test="changeType != null">change_type=#{changeType},</if>
 			<if test="bankLeader != null">bank_leader=#{bankLeader},</if>
-			<if test="isLocalTest != null">is_local_test=#{isLocalTest},</if>
+			is_local_test=#{isLocalTest},
 			<if test="testCase != null">test_case=#{testCase},</if>
-			<if test="isTest != null">is_test=#{isTest},</if>
-			<if test="isSendLeader != null">is_send_leader=#{isSendLeader},</if>
-			<if test="isAccept != null">is_accept=#{isAccept},</if>
-			<if test="testerName != null">tester_name=#{testerName},</if>
+			is_test=#{isTest},
+			is_send_leader=#{isSendLeader},
+			is_accept=#{isAccept},
+			tester_name=#{testerName},
 			<if test="editDate != null">edit_date=#{editDate},</if>
 			<if test="scheduleId != null">schedule_id=#{scheduleId}</if>
 		</set>
 		WHERE rcrd_id=#{rcrdId}
-		AND inpt_opr=#{inptOpr}
 	</update>
 	<delete id="deleteUploadRcrdByScheduleId">
 		DELETE FROM	upload_rcrd_info

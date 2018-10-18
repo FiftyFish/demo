@@ -29,7 +29,7 @@
 			<if test="uploadDate != null">upload_date=#{uploadDate},</if>
 			<if test="isUpload != null">is_upload=#{isUpload}</if>
 		</set>
-		WHERE schedule_id=#{scheduleId}
+		WHERE id=#{id}
 	</update>
 	<delete id="deleteSchedule">
 		DELETE FROM	schedule_info

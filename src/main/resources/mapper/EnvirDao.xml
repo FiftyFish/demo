@@ -3,18 +3,30 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.imooc.demo.dao.EnvirDao">
+	<select id="queryAdminEnvirList" resultType="com.imooc.demo.entity.Envir">
+		SELECT 
+			id, ip, login_name, login_password, envir_name, system_name, is_admin = (case is_admin when 1 then "是" when 0 then "否" else "" end)
+		FROM envir_info
+	</select>
+
 	<select id="queryEnvirList" resultType="com.imooc.demo.entity.Envir">
 		SELECT 
 			id, ip, login_name, login_password, envir_name, system_name, is_admin
 		FROM envir_info
 		WHERE is_admin=#{isAdmin}
 	</select>
+	<select id="queryAdminEnvirByIP" resultType="com.imooc.demo.entity.Envir">
+		SELECT 
+			id, ip, login_name, login_password, envir_name, system_name, is_admin
+		FROM envir_info
+		WHERE ip=#{ip}
+	</select>
+
 	<select id="queryEnvirByIP" resultType="com.imooc.demo.entity.Envir">
 		SELECT 
 			id, ip, login_name, login_password, envir_name, system_name, is_admin
 		FROM envir_info
 		WHERE is_admin=#{isAdmin}
-		AND	ip=#{ip}
 	</select>
 	<insert id="insertEnvir" useGeneratedKeys="true" keyProperty="id"
 		keyColumn="id" parameterType="com.imooc.demo.entity.Envir">

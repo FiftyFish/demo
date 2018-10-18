@@ -47,12 +47,12 @@
 			<if test="userId != null">user_id=#{userId},</if>
 			<if test="usrName != null">usr_name=#{usrName},</if>
 			<if test="attribute != null">attribute=#{attribute},</if>
-			<if test="inputDate != null">input_date=#{inputDate},</if>
+			input_date=#{inputDate},
 			<if test="usrPassword != null">usr_password=#{usrPassword},</if>
-			<if test="editDate != null">edit_date=#{editDate},</if>
+			edit_date=#{editDate},
 			<if test="affiliatedCompany != null">affiliated_company=#{affiliatedCompany},</if>
-			<if test="isAdmin != null">is_admin=#{isAdmin},</if>
-			<if test="bankLeader != null">bank_leader=#{bankLeader}</if>
+			is_admin=#{isAdmin},
+			bank_leader=#{bankLeader}
 		</set>
 		WHERE Id=#{Id}
 	</update>
