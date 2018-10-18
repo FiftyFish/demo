@@ -21,7 +21,7 @@ public class EnvirServiceImpl implements EnvirService {
 
 	@Override
 	public List<Envir> getEnvirList(int isadmin) {
-		if (isadmin == 0) {
+		if (isadmin == 1) {
 			logger.info("当前用户非管理员！");
 			return envirDao.queryEnvirList(isadmin);
 		}

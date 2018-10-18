@@ -172,28 +172,37 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public boolean uploadList(String scheduleId) {
 		if (!scheduleId.equals(null)) {
 			try {
-				List<UploadRcrd> uploadRcrdList = uploadRcrdDao.queryUploadRcrdByScheduleId(scheduleId);
-				if (uploadRcrdList.size() > 0) {
-					logger.info("发版列表不为空！");
-					try {
-						ExtractFileList<UploadRcrd> fileList = new ExtractFileList<UploadRcrd>();
-						fileList.rcrdListParse(uploadRcrdList);
-					} catch (Exception e) {
-						logger.info("fileList生成失败！", e.getMessage());
-						throw new RuntimeException("fileList生成失败！");
-					}
-					try {
-						ExtractFiles files = new ExtractFiles();
-						files.extractFiles(uploadRcrdList);
-					} catch (Exception e) {
-						logger.info("增量包解析出错！", e.getMessage());
-						throw new RuntimeException("增量包解析出错！");
-					}
-					return true;
+				List<Schedule> scheduleList = scheduleDao.queryScheduleById(scheduleId);
+				int isUpload = scheduleList.get(0).getIsUpload();
+				if (isUpload==0) {
+					throw new RuntimeException("已上线排期不允许再次发版");
+
 				} else {
-					logger.error("发版列表为空！");
-					throw new RuntimeException("发版列表为空！");
+					List<UploadRcrd> uploadRcrdList = uploadRcrdDao.queryUploadRcrdByScheduleId(scheduleId);
+					
+					if (uploadRcrdList.size() > 0) {
+						logger.info("发版列表不为空！");
+						try {
+							ExtractFileList<UploadRcrd> fileList = new ExtractFileList<UploadRcrd>();
+							fileList.rcrdListParse(uploadRcrdList);
+						} catch (Exception e) {
+							logger.info("fileList生成失败！", e.getMessage());
+							throw new RuntimeException("fileList生成失败！");
+						}
+						try {
+							ExtractFiles files = new ExtractFiles();
+							files.extractFiles(uploadRcrdList);
+						} catch (Exception e) {
+							logger.info("增量包解析出错！", e.getMessage());
+							throw new RuntimeException("增量包解析出错！");
+						}
+						return true;
+					} else {
+						logger.error("发版列表为空！");
+						throw new RuntimeException("发版列表为空！");
+					}
 				}
+				
 			} catch (Exception e) {
 				logger.error("发版失败！", e.getMessage(), e);
 				throw new RuntimeException("发版失败！" + e.toString());
@@ -202,6 +211,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 			logger.error("排期编号不能为空！");
 			throw new RuntimeException("排期编号不能为空！");
 		}
+	}
+
+	@Override
+	public List<Schedule> getSchedule() {
+		
+		return scheduleDao.querySchedule();
 	}
 
 }

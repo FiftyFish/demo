@@ -153,6 +153,7 @@ public class UsrServiceImpl implements UsrService {
 		String pwd = null;
 		try {
 			pwd = EncryptUtil.aesEncrypt(password, EncryptUtil.KEY);
+			logger.info(pwd);
 		} catch (Exception e) {
 			logger.error("密码解密失败：", e.getMessage(), e);
 			throw new RuntimeException("密码解密失败:" + e.toString());
@@ -167,6 +168,25 @@ public class UsrServiceImpl implements UsrService {
 //				return false;
 		}
 
+	}
+
+	@Override
+	public List<Usr> getUsrsList(String usrName) {
+		List<Usr> usrList = usrDao.queryUsrs(usrName);
+		List<Usr> aesDecryptusrList =new ArrayList<Usr>();
+		try {
+			for (Usr usr : usrList) {
+				String pwd;
+				pwd = EncryptUtil.aesDecrypt(usr.getUsrPassword(), EncryptUtil.KEY);
+				usr.setUsrPassword(pwd);
+				aesDecryptusrList.add(usr);
+			}
+		} catch (Exception e) {
+			logger.error("获取用户列表时密码解密失败！", e.getMessage(), e);
+			e.printStackTrace();
+		}
+		// 列出条件中的用户
+		return aesDecryptusrList;
 	}
 
 }

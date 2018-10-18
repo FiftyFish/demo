@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.imooc.demo.dao.UploadRcrdDao;
+import com.imooc.demo.dao.UsrDao;
 import com.imooc.demo.entity.UploadRcrd;
 import com.imooc.demo.service.UploadRcrdService;
 
@@ -20,22 +21,35 @@ import com.imooc.demo.service.UploadRcrdService;
 public class UploadRcrdServiceImpl implements UploadRcrdService {
 	@Autowired
 	private UploadRcrdDao uploadRcrdDao;
+	@Autowired
+	private UsrDao usrDao;
 	protected static Logger logger = LoggerFactory.getLogger(UploadRcrdServiceImpl.class);
 
 	@Override
-	public List<UploadRcrd> getUploadRcrdList() {
-		return uploadRcrdDao.queryUploadRcrd();
+	public List<UploadRcrd> getUploadRcrdList(String usrName) {
+		int isAdmin=usrDao.queryUsrByName(usrName).getIsAdmin();
+		if (isAdmin==0) {
+			return uploadRcrdDao.queryUploadRcrdAll();
+		} else {
+			return uploadRcrdDao.queryUploadRcrd(usrName);
+		}
+		
 	}
 
 	@Override
 	// 根据排期编号列出发版申请表
-	public List<UploadRcrd> getUploadRcrdListByScheduleId(String scheduleId) {
-		return uploadRcrdDao.queryUploadRcrdByScheduleId(scheduleId);
+	public List<UploadRcrd> getUploadRcrdListByScheduleId(String inptOpr,String scheduleId) {
+		
+		logger.info("当前用户的排期编号"+scheduleId);
+		logger.info("当前查询的用户"+inptOpr);
+		return uploadRcrdDao.queryUploadRcrdByScheduleIdName(scheduleId,inptOpr);
+		
+		
 	}
 
 	@Transactional
 	@Override
-	public boolean addUploadRcrd(UploadRcrd uploadRcrd, String usrName) {
+	public boolean addUploadRcrd(UploadRcrd uploadRcrd) {
 		// 设置默认值
 		Date input = new Date();
 		SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -49,8 +63,8 @@ public class UploadRcrdServiceImpl implements UploadRcrdService {
 		String timeStr = sdf.format(currentTime);
 		String rcrdId = UUID.randomUUID().toString() + timeStr;
 		uploadRcrd.setRcrdId(rcrdId);
-		uploadRcrd.setInptOpr(usrName);
-		logger.info("InptOpr" + usrName);
+		
+		logger.info("InptOpr" + uploadRcrd.getInptOpr());
 		logger.info("InptDate" + uploadRcrd.getInptDate());
 		logger.info("EditDate" + uploadRcrd.getEditDate());
 		logger.info("RcrdId" + uploadRcrd.getRcrdId());
@@ -145,6 +159,12 @@ public class UploadRcrdServiceImpl implements UploadRcrdService {
 			throw new RuntimeException("发版编号不能为空！");
 		}
 
+	}
+
+	@Override
+	public List<UploadRcrd> getUploadRcrdListByScheduleIdAdmin(String scheduleId) {
+		// TODO Auto-generated method stub
+		return uploadRcrdDao.queryUploadRcrdByScheduleId(scheduleId);
 	}
 
 }
