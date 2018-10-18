@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,32 +19,42 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.imooc.demo.entity.Usr;
 import com.imooc.demo.service.UsrService;
 
-
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/login")
 public class UsrController {
 	@Autowired
 	private UsrService usrService;
-	
+	protected static Logger logger = LoggerFactory.getLogger(UsrController.class);
+
 	/**
 	 * 登陆
 	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/usrLogin", method = RequestMethod.POST)
-    String userLogin(@RequestBody Usr usr, Model model) {
-        boolean verify = usrService.verifyUser(usr);
-        if (verify) {
-            model.addAttribute("usrName", usr.getUsrName());
-            model.addAttribute("password", usr.getUsrPassword());
-            
-            System.out.println("success!!!!");
-            return "result";
-        } else {
-            return "redirect:/notVerify";
-        }
+	private Map<String, Object> login(@RequestBody Usr usr)
+			throws JsonParseException, JsonMappingException, IOException {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		// 用户登陆
+		String name = usr.getUsrName();
+		String pass = usr.getUsrPassword();
+		logger.info("输入的用户名：" + name);
+		logger.info("输入的密码：" + pass);
+		
+		
+		boolean flag =usrService.verifyUser(usr);
+		if (flag) {
+			Usr usr1=usrService.getUsrByName(name);
+			logger.info(usr1.getIsAdmin().toString());		
+			modelMap.put("success",flag);
+			modelMap.put("usr", usr1);
+			return modelMap;
+		} else {
+			modelMap.put("false", flag);
+			return modelMap;
+		}
+	}
 
-    }
 	/**
 	 * 获取所有的用户信息
 	 * 
@@ -54,24 +64,29 @@ public class UsrController {
 	private Map<String, Object> listUsr() {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		List<Usr> list = new ArrayList<Usr>();
-		// 获取区域列表
+		// 获取用户列表
 		list = usrService.getUsrList();
+		logger.info("获取到list的size：" + String.valueOf(list.size()));
 		modelMap.put("usrList", list);
 		return modelMap;
 	}
+
 	/**
 	 * 通过用户名获取用户信息
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/getusrbyname", method = RequestMethod.GET)
-	private Map<String, Object> getUsrByName(String usrName) {
+	@RequestMapping(value = "/getusrbyname", method = RequestMethod.POST)
+	private Map<String, Object> getUsrByName(@RequestBody String usrName) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		// 获取用户信息
+		logger.info("输入的用户名：" + usrName);
 		Usr usr = usrService.getUsrByName(usrName);
-		modelMap.put("usr", usr);
+		logger.info("获取的用户名：" + usr.getUsrName());
+		modelMap.put("usrList", usr);
 		return modelMap;
 	}
+
 	/**
 	 * 添加用户信息
 	 * 
@@ -83,57 +98,48 @@ public class UsrController {
 	 * @throws JsonParseException
 	 */
 	@RequestMapping(value = "/addusr", method = RequestMethod.POST)
-	private Map<String, Object> addUsr(Usr usr)
+	private Map<String, Object> addUsr(@RequestBody Usr usr)
 			throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
-		// 添加用户信息
-		//密码加密操作
-//		Usr newusr = null;
-//		try {
-//			String pwd;
-//			pwd = EncryptUtil.aesDecrypt(usr.getUsrPassword(), EncryptUtil.KEY);
-//			newusr.setUsrPassword(pwd);
-//		} catch (Exception e1) {
-//			throw new RuntimeException("密码加密失败:" + e1.toString());
-//		}
-//		newusr.setAffiliatedCompany(usr.getAffiliatedCompany());
-//		newusr.setAttribute(usr.getAttribute());
-//		newusr.setBankLeader(usr.getBankLeader());
-//		newusr.setEditDate(new Date());
-//		newusr.setId(usr.getId());
-//		newusr.setInputDate(new Date());
-//		newusr.setIsAdmin(usr.getIsAdmin());
-//		newusr.setUserId(usr.getUserId());
-//		newusr.setUsrName(usr.getUsrName());
-//		modelMap.put("success", usrService.addUsr(newusr));
+		logger.info("输入的用户名：" + usr.getUsrName());
+		logger.info("输入的密码：" + usr.getUsrPassword());
+
 		modelMap.put("success", usrService.addUsr(usr));
 		return modelMap;
 	}
+
 	/**
-	 * 修改区域信息，主要修改名字
+	 * 修改用户信息，主要修改名字
 	 * 
-	 * @param areaStr
-	 * @param request
+	 * @param usr
 	 * @return
-	 * @throws IOException
-	 * @throws JsonMappingException
 	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
 	 */
-	@RequestMapping(value = "/modifyusr", method = RequestMethod.POST)
-	private Map<String, Object> updateUsr(Usr usr)
+	@RequestMapping(value = "/modifyUsr", method = RequestMethod.POST)
+	private Map<String, Object> modifyUsr(@RequestBody Usr usr)
 			throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
-		// 修改区域信息
-		modelMap.put("success",usrService.updateUsr(usr));
+		// 修改用户信息
+		logger.info("修改的用户名为：" + usr.getUsrName());
+		modelMap.put("success", usrService.updateUsr(usr));
 		return modelMap;
 	}
 
-	@RequestMapping(value = "/removeusr", method = RequestMethod.GET)
-	private Map<String, Object> removeUsr(String usrName) {
+	/**
+	 * 删除用户
+	 * 
+	 * @param usrName
+	 * @return
+	 */
+	@RequestMapping(value = "/removeusr", method = RequestMethod.POST)
+	private Map<String, Object> removeUsr(@RequestBody String usrName) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
-		// 修改区域信息
+		// 删除用户信息
+		logger.info("删除的用户名为：" + usrName);
 		modelMap.put("success", usrService.deleteUsr(usrName));
 		return modelMap;
 	}
-	
+
 }

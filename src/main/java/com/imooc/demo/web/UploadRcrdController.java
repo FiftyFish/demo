@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServlet;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,36 +24,43 @@ import com.imooc.demo.service.UploadRcrdService;
 public class UploadRcrdController {
 	@Autowired
 	private UploadRcrdService uploadrcrdService;
+	protected static Logger logger = LoggerFactory.getLogger(UploadRcrdController.class);
 
 	/**
 	 * 获取所有发版信息
+	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/listUploadRcrd", method = RequestMethod.GET)
+	@RequestMapping(value = "/listUploadRcrd", method = RequestMethod.POST)
 	private Map<String, Object> listUploadRcrd() {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		List<UploadRcrd> list = new ArrayList<UploadRcrd>();
 		// 获取发版列表
 		list = uploadrcrdService.getUploadRcrdList();
+		logger.info("获取到list的size：" + String.valueOf(list.size()));
 		modelMap.put("uploadRcrdList", list);
 		return modelMap;
 	}
 
 	/**
 	 * 通过排期编号获取发版信息
+	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/getUploadRcrdByScheduleId", method = RequestMethod.GET)
-	private Map<String, Object> getUploadRcrdByScheduleId(String scheduleId) {
+	@RequestMapping(value = "/getUploadRcrdByScheduleId", method = RequestMethod.POST)
+	private Map<String, Object> getUploadRcrdByScheduleId(@RequestBody String scheduleId) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		List<UploadRcrd> list = new ArrayList<UploadRcrd>();
-		list = uploadrcrdService.getUploadRcrdByScheduleId(scheduleId);
-		modelMap.put("uploadRcrd", list);
+		list = uploadrcrdService.getUploadRcrdListByScheduleId(scheduleId);
+		logger.info("排期编号：" + scheduleId);
+		logger.info("获取到list的size：" + String.valueOf(list.size()));
+		modelMap.put("uploadRcrdList", list);
 		return modelMap;
 	}
 
 	/**
 	 * 插入发版申请
+	 * 
 	 * @param uploadRcrd
 	 * @return
 	 * @throws JsonParseException
@@ -64,13 +71,16 @@ public class UploadRcrdController {
 	public Map<String, Object> addUploadRcrd(@RequestBody UploadRcrd uploadRcrd, String usrName)
 			throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
-		// 添加区域信息
-		modelMap.put("success", uploadrcrdService.addUploadRcrd(uploadRcrd,usrName));
+		// 添加发版申请
+		logger.info("ChangeContent" + uploadRcrd.getChangeContent());
+		logger.info("ChangeType" + uploadRcrd.getChangeType());
+		modelMap.put("success", uploadrcrdService.addUploadRcrd(uploadRcrd, usrName));
 		return modelMap;
 	}
 
 	/**
 	 * 修改发版申请信息
+	 * 
 	 * @param uploadRcrd
 	 * @return
 	 * @throws JsonParseException
@@ -78,61 +88,44 @@ public class UploadRcrdController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/modifyUploadRcrd", method = RequestMethod.POST)
-	private Map<String, Object> modifyUploadRcrd(UploadRcrd uploadRcrd)
+	private Map<String, Object> modifyUploadRcrd(@RequestBody UploadRcrd uploadRcrd, String usrName)
 			throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		// 修改发版申请信息
-		modelMap.put("success", uploadrcrdService.modifyUploadRcrd(uploadRcrd));
+		logger.info("ChangeContent" + uploadRcrd.getChangeContent());
+		logger.info("ChangeType" + uploadRcrd.getChangeType());
+		modelMap.put("success", uploadrcrdService.modifyUploadRcrd(uploadRcrd, usrName));
 		return modelMap;
 	}
 
 	/**
 	 * 根据排期编号删除发版申请
+	 * 
 	 * @param scheduleId
 	 * @return
 	 */
-	@RequestMapping(value = "/removeUploadRcrdByScheduleId", method = RequestMethod.GET)
-	private Map<String, Object> removeUploadRcrdByScheduleId(String scheduleId) {
+	@RequestMapping(value = "/removeUploadRcrdByScheduleId", method = RequestMethod.POST)
+	private Map<String, Object> removeUploadRcrdByScheduleId(@RequestBody String scheduleId) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		// 已经发版的申请按照排期编号删除
+		logger.info("scheduleId" + scheduleId);
 		modelMap.put("success", uploadrcrdService.removeUploadRcrdByScheduleId(scheduleId));
 		return modelMap;
 	}
 
 	/**
 	 * 根据发版申请编号删除发版申请
+	 * 
 	 * @param scheduleId
 	 * @return
 	 */
-	@RequestMapping(value = "/removeUploadRcrdByRcrdId", method = RequestMethod.GET)
-	private Map<String, Object> removeUploadRcrdByRcrdId(String rcrdId) {
+	@RequestMapping(value = "/removeUploadRcrdByRcrdId", method = RequestMethod.POST)
+	private Map<String, Object> removeUploadRcrdByRcrdId(@RequestBody String rcrdId) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
-		// 已经发版的申请按照排期编号删除
+		// 已经发版的申请按照申请编号删除
+		logger.info("rcrdId" + rcrdId);
 		modelMap.put("success", uploadrcrdService.removeUploadRcrdByRcrdId(rcrdId));
-		return modelMap;
-	}	
-	
-	/**
-	 * 变更影响分析生成
-	 * @return
-	 */
-	@RequestMapping(value = "/getUploadRcrdForExcel", method = RequestMethod.GET)
-	private Map<String, Object> getUploadRcrdForExcel(@RequestBody List<UploadRcrd> uploadRcrdList) {
-		Map<String, Object> modelMap = new HashMap<String, Object>();
-		boolean flag = uploadrcrdService.getUploadRcrdForExcel(uploadRcrdList);
-		modelMap.put("success", flag);
 		return modelMap;
 	}
 
-	/**
-	 *file.list生成生成
-	 * @return
-	 */
-	@RequestMapping(value = "/getUploadRcrdForFileList", method = RequestMethod.GET)
-	private Map<String, Object> getUploadRcrdForFileList(@RequestBody List<UploadRcrd> uploadRcrdList) {
-		Map<String, Object> modelMap = new HashMap<String, Object>();
-		boolean flag = uploadrcrdService.getUploadRcrdForFileList(uploadRcrdList);
-		modelMap.put("success", flag);
-		return modelMap;
-	}
 }
