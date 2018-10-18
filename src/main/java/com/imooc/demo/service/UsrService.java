@@ -6,7 +6,6 @@ import com.imooc.demo.entity.Usr;
 
 public interface UsrService {
 
-
 	/**
 	 * 获取用户列表
 	 * 
@@ -44,9 +43,8 @@ public interface UsrService {
 	 * @param usr
 	 * @return
 	 */
-	boolean deleteUsr(String  usrName);
+	boolean deleteUsr(String usrName);
 
 	boolean verifyUser(Usr usr);
-
 
 }

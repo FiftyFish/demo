@@ -7,36 +7,41 @@ import com.imooc.demo.entity.Envir;
 public interface EnvirService {
 
 	/**
-	 *  列出环境表
+	 * 列出环境表
+	 * 
 	 * @return EnvirList
 	 */
 	List<Envir> getEnvirList(int isadmin);
-	
+
 	/**
-	 *  根据IP查询环境列表
+	 * 根据IP查询环境列表
+	 * 
 	 * @return EnvirList
 	 */
-	Envir  getEnvirByIP(String ip,int isadmin);
-	
+	List<Envir> getEnvirByIP(String ip, int isadmin);
+
 	/**
 	 * 增加环境信息
+	 * 
 	 * @param envir
 	 * @return
 	 */
-	boolean addEnvir(Envir envir);	
-	
+	boolean addEnvir(Envir envir);
+
 	/**
 	 * 更新环境信息
+	 * 
 	 * @param envir
 	 * @return
 	 */
 	boolean modifyEnvir(Envir envir);
 
 	/**
-	 *  删除环境
+	 * 删除环境
+	 * 
 	 * @param envirId
 	 * @return
 	 */
 	boolean removeEnvir(Integer id);
- 
+
 }

@@ -42,5 +42,22 @@ public interface ScheduleService {
 	 * @param schedule
 	 * @return
 	 */
-	boolean removeSchedule(Integer  id);
+	boolean removeSchedule(Integer id);
+
+	/**
+	 * 生成上线文件
+	 * 
+	 * @param id
+	 * @return
+	 */
+	boolean getUploadFile(String scheduleId);
+
+	/**
+	 * 发版
+	 * 
+	 * @param scheduleId
+	 * @return
+	 */
+	boolean uploadList(String scheduleId);
+
 }
