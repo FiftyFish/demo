@@ -26,7 +26,7 @@ public interface AreaDao {
 	 * @return
 	 */
 	int insertArea(Area area);
-	
+
 	/**
 	 * 更新区域信息
 	 * 
