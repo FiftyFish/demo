@@ -57,7 +57,21 @@ public class ScheduleController {
 		modelMap.put("scheduleList", list);
 		return modelMap;
 	}
-
+	/**
+	 * 通过排期编号获取未上线排期信息
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/listSchedules", method = RequestMethod.POST)
+	private Map<String, Object> listSchedules() {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		List<Schedule> list = new ArrayList<Schedule>();
+		list = scheduleService.getSchedule();
+		
+		logger.info("获取到list的size：" + String.valueOf(list.size()));
+		modelMap.put("scheduleList", list);
+		return modelMap;
+	}
 	/**
 	 * 增加排期信息
 	 * 

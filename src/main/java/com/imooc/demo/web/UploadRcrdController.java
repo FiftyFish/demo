@@ -17,13 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.imooc.demo.entity.UploadRcrd;
+import com.imooc.demo.entity.Usr;
 import com.imooc.demo.service.UploadRcrdService;
+import com.imooc.demo.service.UsrService;
 
 @RestController
 @RequestMapping("/uploadRcrd")
 public class UploadRcrdController {
 	@Autowired
 	private UploadRcrdService uploadrcrdService;
+	@Autowired
+	private UsrService usrService;
 	protected static Logger logger = LoggerFactory.getLogger(UploadRcrdController.class);
 
 	/**
@@ -32,11 +36,11 @@ public class UploadRcrdController {
 	 * @return
 	 */
 	@RequestMapping(value = "/listUploadRcrd", method = RequestMethod.POST)
-	private Map<String, Object> listUploadRcrd() {
+	private Map<String, Object> listUploadRcrd(@RequestBody String usrName) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		List<UploadRcrd> list = new ArrayList<UploadRcrd>();
 		// 获取发版列表
-		list = uploadrcrdService.getUploadRcrdList();
+		list = uploadrcrdService.getUploadRcrdList(usrName);
 		logger.info("获取到list的size：" + String.valueOf(list.size()));
 		modelMap.put("uploadRcrdList", list);
 		return modelMap;
@@ -48,11 +52,24 @@ public class UploadRcrdController {
 	 * @return
 	 */
 	@RequestMapping(value = "/getUploadRcrdByScheduleId", method = RequestMethod.POST)
-	private Map<String, Object> getUploadRcrdByScheduleId(@RequestBody String scheduleId) {
+	private Map<String, Object> getUploadRcrdByScheduleId(@RequestBody UploadRcrd rcrd) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		List<UploadRcrd> list = new ArrayList<UploadRcrd>();
-		list = uploadrcrdService.getUploadRcrdListByScheduleId(scheduleId);
-		logger.info("排期编号：" + scheduleId);
+		String inptOpr=rcrd.getInptOpr();
+		String scheduleId=rcrd.getScheduleId();
+		Usr usr = usrService.getUsrByName(inptOpr);
+		if (usr.getIsAdmin()==1) {
+			logger.info("查询用户：" + rcrd.getInptOpr());
+
+			logger.info("排期编号：" + rcrd.getScheduleId());
+			list = uploadrcrdService.getUploadRcrdListByScheduleId(inptOpr,scheduleId);
+		} else {
+			logger.info("管理员");
+			list = uploadrcrdService.getUploadRcrdListByScheduleIdAdmin(scheduleId);
+		}
+		
+		logger.info("排期编号：" + rcrd.getScheduleId());
+		logger.info("查询用户：" + rcrd.getInptOpr());
 		logger.info("获取到list的size：" + String.valueOf(list.size()));
 		modelMap.put("uploadRcrdList", list);
 		return modelMap;
@@ -68,13 +85,13 @@ public class UploadRcrdController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/addUploadRcrd", method = RequestMethod.POST)
-	public Map<String, Object> addUploadRcrd(@RequestBody UploadRcrd uploadRcrd, String usrName)
+	public Map<String, Object> addUploadRcrd(@RequestBody UploadRcrd uploadRcrd)
 			throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		// 添加发版申请
 		logger.info("ChangeContent" + uploadRcrd.getChangeContent());
 		logger.info("ChangeType" + uploadRcrd.getChangeType());
-		modelMap.put("success", uploadrcrdService.addUploadRcrd(uploadRcrd, usrName));
+		modelMap.put("success", uploadrcrdService.addUploadRcrd(uploadRcrd));
 		return modelMap;
 	}
 

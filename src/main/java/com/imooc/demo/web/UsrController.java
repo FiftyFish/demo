@@ -70,7 +70,21 @@ public class UsrController {
 		modelMap.put("usrList", list);
 		return modelMap;
 	}
-
+	/**
+	 * 获取所有的用户信息
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/listusrs", method = RequestMethod.POST)
+	private Map<String, Object> listsUsr(@RequestBody String usrName) {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		List<Usr> list = new ArrayList<Usr>();
+		// 获取用户列表
+		list = usrService.getUsrsList(usrName);
+		logger.info("获取到list的size：" + String.valueOf(list.size()));
+		modelMap.put("usrList", list);
+		return modelMap;
+	}
 	/**
 	 * 通过用户名获取用户信息
 	 * 
