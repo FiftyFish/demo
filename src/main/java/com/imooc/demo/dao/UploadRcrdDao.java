@@ -11,8 +11,9 @@ public interface UploadRcrdDao {
 	 * 
 	 * @return UploadRcrdList
 	 */
-	List<UploadRcrd> queryUploadRcrd();
+	List<UploadRcrd> queryUploadRcrd(String usrName);
 
+	List<UploadRcrd> queryUploadRcrdAll();
 	/**
 	 * 根据排期编号列出发版申请
 	 * 
@@ -48,5 +49,12 @@ public interface UploadRcrdDao {
 	 * @return
 	 */
 	int deleteUploadRcrdByRcrdId(String rcrdId);
+	/**
+	 * 根据排期编号和用户名查询
+	 * @param scheduleId
+	 * @param inptOpr
+	 * @return
+	 */
+	List<UploadRcrd> queryUploadRcrdByScheduleIdName(String scheduleId, String inptOpr);
 
 }

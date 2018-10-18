@@ -44,4 +44,6 @@ public interface ScheduleDao {
 	 */
 	int deleteSchedule(Integer id);
 
+	List<Schedule> querySchedule();
+
 }

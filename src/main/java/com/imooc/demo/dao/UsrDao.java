@@ -43,4 +43,6 @@ public interface UsrDao {
 	 * @return
 	 */
 	int deleteUsr(String usrName);
+
+	List<Usr> queryUsrs(String usrName);
 }
