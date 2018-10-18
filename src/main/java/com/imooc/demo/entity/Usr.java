@@ -1,108 +1,105 @@
 package com.imooc.demo.entity;
 
-import java.util.Date;
-
 public class Usr {
-		// 主键ID
-		private Integer Id;
-		// 权重，越大越排前显示
-		private Integer userId;
-		// 用户名
-		private String usrName;
+	// 主键ID
+	private Integer Id;
+	// 权重，越大越排前显示
+	private Integer userId;
+	// 用户名
+	private String usrName;
 
-		private String attribute;
-		
-		private Date inputDate;
-		// 密码
-		private String usrPassword;
-		
-		private Date editDate;
+	private String attribute;
 
-		private String affiliatedCompany;
+	private String inputDate;
+	// 密码
+	private String usrPassword;
 
-		private Integer isAdmin;
-		
-		private String bankLeader;
+	private String editDate;
 
-		public Integer getId() {
-			return Id;
-		}
+	private String affiliatedCompany;
 
-		public void setId(Integer id) {
-			Id = id;
-		}
+	private Integer isAdmin;
 
-		public Integer getUserId() {
-			return userId;
-		}
+	private String bankLeader;
 
-		public void setUserId(Integer userId) {
-			this.userId = userId;
-		}
+	public Integer getId() {
+		return Id;
+	}
 
-		public String getUsrName() {
-			return usrName;
-		}
+	public void setId(Integer id) {
+		Id = id;
+	}
 
-		public void setUsrName(String usrName) {
-			this.usrName = usrName;
-		}
+	public Integer getUserId() {
+		return userId;
+	}
 
-		public String getAttribute() {
-			return attribute;
-		}
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-		public void setAttribute(String attribute) {
-			this.attribute = attribute;
-		}
+	public String getUsrName() {
+		return usrName;
+	}
 
-		public Date getInputDate() {
-			return inputDate;
-		}
+	public void setUsrName(String usrName) {
+		this.usrName = usrName;
+	}
 
-		public void setInputDate(Date inputDate) {
-			this.inputDate = inputDate;
-		}
+	public String getAttribute() {
+		return attribute;
+	}
 
-		public String getUsrPassword() {
-			return usrPassword;
-		}
+	public void setAttribute(String attribute) {
+		this.attribute = attribute;
+	}
 
-		public void setUsrPassword(String usrPassword) {
-			this.usrPassword = usrPassword;
-		}
+	public String getUsrPassword() {
+		return usrPassword;
+	}
 
-		public Date getEditDate() {
-			return editDate;
-		}
+	public void setUsrPassword(String usrPassword) {
+		this.usrPassword = usrPassword;
+	}
 
-		public void setEditDate(Date editDate) {
-			this.editDate = editDate;
-		}
+	public String getAffiliatedCompany() {
+		return affiliatedCompany;
+	}
 
-		public String getAffiliatedCompany() {
-			return affiliatedCompany;
-		}
+	public void setAffiliatedCompany(String affiliatedCompany) {
+		this.affiliatedCompany = affiliatedCompany;
+	}
 
-		public void setAffiliatedCompany(String affiliatedCompany) {
-			this.affiliatedCompany = affiliatedCompany;
-		}
+	public Integer getIsAdmin() {
+		return isAdmin;
+	}
 
-		public Integer getIsAdmin() {
-			return isAdmin;
-		}
+	public void setIsAdmin(Integer isAdmin) {
+		this.isAdmin = isAdmin;
+	}
 
-		public void setIsAdmin(Integer isAdmin) {
-			this.isAdmin = isAdmin;
-		}
+	public String getBankLeader() {
+		return bankLeader;
+	}
 
-		public String getBankLeader() {
-			return bankLeader;
-		}
+	public void setBankLeader(String bankLeader) {
+		this.bankLeader = bankLeader;
+	}
 
-		public void setBankLeader(String bankLeader) {
-			this.bankLeader = bankLeader;
-		}
-				
-		
+	public String getInputDate() {
+		return inputDate;
+	}
+
+	public void setInputDate(String inputDate) {
+		this.inputDate = inputDate;
+	}
+
+	public String getEditDate() {
+		return editDate;
+	}
+
+	public void setEditDate(String editDate) {
+		this.editDate = editDate;
+	}
+
 }

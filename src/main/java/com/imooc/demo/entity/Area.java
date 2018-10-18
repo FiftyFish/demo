@@ -1,9 +1,8 @@
 package com.imooc.demo.entity;
 
-import java.util.Date;
-
 /**
  * 区域信息
+ * 
  * @author xiangze
  *
  */
@@ -15,9 +14,9 @@ public class Area {
 	// 权重，越大越排前显示
 	private Integer priority;
 	// 创建时间
-	private Date creatTime;
+	private String creatTime;
 	// 更新时间
-	private Date lastEditTime;
+	private String lastEditTime;
 
 	public Integer getAreaId() {
 		return areaId;
@@ -43,21 +42,19 @@ public class Area {
 		this.priority = priority;
 	}
 
-
-
-	public Date getCreatTime() {
+	public String getCreatTime() {
 		return creatTime;
 	}
 
-	public void setCreatTime(Date creatTime) {
+	public void setCreatTime(String creatTime) {
 		this.creatTime = creatTime;
 	}
 
-	public Date getLastEditTime() {
+	public String getLastEditTime() {
 		return lastEditTime;
 	}
 
-	public void setLastEditTime(Date lastEditTime) {
+	public void setLastEditTime(String lastEditTime) {
 		this.lastEditTime = lastEditTime;
 	}
 
